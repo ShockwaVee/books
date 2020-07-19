@@ -1,0 +1,27 @@
+@import-normalize;
+
+body {
+  margin: 0;
+  padding: 0;
+}
+@font-face {
+  font-family: "SourceSansPro";
+  font-weight: 300;
+  src: local("Roboto"),
+  url(./static/fonts/SourceSansPro-Light.ttf) format("truetype");
+}
+@font-face {
+  font-family: "SourceSansPro";
+  src: local("Roboto"),
+  url(./static/fonts/SourceSansPro-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: "SourceSansPro";
+  font-weight: 600;
+  src: local("Roboto"),
+  url(./static/fonts/SourceSansPro-SemiBold.ttf) format("truetype");
+}
+
+* {
+  font-family: "SourceSansPro", sans-serif;
+}
