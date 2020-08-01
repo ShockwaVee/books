@@ -10,7 +10,12 @@
     "@types/node": "^12.12.50",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
+    "antd": "^4.5.1",
+    "axios": "^0.19.2",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "node-sass": "^4.14.1",
+    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
@@ -25,6 +30,11 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -35,6 +45,11 @@
       "last 2 chrome version",
       "last 2 firefox version",
       "last 2 safari version"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
     ]
   },
   "devDependencies": {}
