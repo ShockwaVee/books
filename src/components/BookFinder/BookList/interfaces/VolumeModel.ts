@@ -7,5 +7,7 @@ export interface VolumeModel {
     title: string;
     description: string;
     authors: undefined | string[];
+    averageRating: number;
+    ratingsCount: number;
   };
 }

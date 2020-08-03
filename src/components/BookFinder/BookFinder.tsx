@@ -8,6 +8,7 @@ import { BookSearch } from "./BookSearch/BookSearch";
 import { BookList } from "./BookList/BookList";
 import axios from "axios";
 import { notification } from "antd";
+import { searchUrl } from "../../helpers/BookHelper";
 
 export const BookFinder: FunctionComponent = () => {
   const [query, setQuery] = useState("");
@@ -15,13 +16,14 @@ export const BookFinder: FunctionComponent = () => {
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
-  const url = "https://www.googleapis.com/books/v1/volumes?q=";
 
   const fetchBooks = useCallback(async () => {
     setIsLoading(true);
 
     try {
-      const result = await axios(`${url}${query}&startIndex=${startIndex}`);
+      const result = await axios(
+        `${searchUrl}${query}&startIndex=${startIndex}`
+      );
 
       setIsLoading(false);
       setTotal(result.data.totalItems);
