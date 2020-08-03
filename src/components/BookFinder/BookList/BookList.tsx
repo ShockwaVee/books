@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { BookListProps } from "./interfaces/BookListProps";
 import { List } from "antd";
 import styles from "./BookList.module.scss";
+import { VolumeModel } from "./interfaces/VolumeModel";
 
 export const BookList: FunctionComponent<BookListProps> = (props) => {
   const renderAuthors = (authors: string[] | undefined) => {
@@ -11,7 +12,7 @@ export const BookList: FunctionComponent<BookListProps> = (props) => {
     return authors.join(", ");
   };
 
-  const renderItem = (item: any) => {
+  const renderItem = (item: VolumeModel) => {
     return (
       <List.Item
         key={item.id}
@@ -51,7 +52,7 @@ export const BookList: FunctionComponent<BookListProps> = (props) => {
           showSizeChanger: false,
           current: props.currentPage,
         }}
-      ></List>
+      />
     </div>
   );
 };
