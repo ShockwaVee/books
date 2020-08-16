@@ -8,6 +8,10 @@ import { RouteUrl } from "../../../enums/RouteUrl";
 import { renderAuthors } from "../../../helpers/BookHelper";
 
 export const BookList: FunctionComponent<BookListProps> = (props) => {
+  const renderTitle = (bookUrl: string, title: string) => {
+    return <Link to={bookUrl}>{title}</Link>;
+  };
+
   const renderItem = (item: VolumeModel) => {
     const bookUrl = `${RouteUrl.Books}/${item.id}`;
 
@@ -25,7 +29,7 @@ export const BookList: FunctionComponent<BookListProps> = (props) => {
         }
       >
         <List.Item.Meta
-          title={<Link to={bookUrl}>{item.volumeInfo.title}</Link>}
+          title={renderTitle(bookUrl, item.volumeInfo.title)}
           description={renderAuthors(item.volumeInfo.authors)}
         />
         {item.volumeInfo.description}

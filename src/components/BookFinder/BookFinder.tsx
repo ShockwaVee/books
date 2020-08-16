@@ -36,7 +36,7 @@ export const BookFinder: FunctionComponent = () => {
     }
 
     window.scrollTo(0, 0);
-  }, [query, startIndex]);
+  }, [query, startIndex, searchUrl]);
 
   useEffect(() => {
     if (query !== "") {

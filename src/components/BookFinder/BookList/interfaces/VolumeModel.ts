@@ -1,13 +1,6 @@
-import { ImageLinkModel } from "./ImageLinkModel";
+import { VolumeInfo } from "./VolumeInfo";
 
 export interface VolumeModel {
   id: string;
-  volumeInfo: {
-    imageLinks: ImageLinkModel | undefined;
-    title: string;
-    description: string;
-    authors: undefined | string[];
-    averageRating: number;
-    ratingsCount: number;
-  };
+  volumeInfo: VolumeInfo;
 }
