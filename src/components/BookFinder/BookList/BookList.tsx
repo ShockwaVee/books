@@ -2,16 +2,19 @@ import React, { FunctionComponent } from "react";
 import { BookListProps } from "./interfaces/BookListProps";
 import { List } from "antd";
 import styles from "./BookList.module.scss";
+import { VolumeModel } from "./interfaces/VolumeModel";
+import { Link } from "react-router-dom";
+import { RouteUrl } from "../../../enums/RouteUrl";
+import { renderAuthors } from "../../../helpers/BookHelper";
 
 export const BookList: FunctionComponent<BookListProps> = (props) => {
-  const renderAuthors = (authors: string[] | undefined) => {
-    if (!authors) {
-      return "-";
-    }
-    return authors.join(", ");
+  const renderTitle = (bookUrl: string, title: string) => {
+    return <Link to={bookUrl}>{title}</Link>;
   };
 
-  const renderItem = (item: any) => {
+  const renderItem = (item: VolumeModel) => {
+    const bookUrl = `${RouteUrl.Books}/${item.id}`;
+
     return (
       <List.Item
         key={item.id}
@@ -26,7 +29,7 @@ export const BookList: FunctionComponent<BookListProps> = (props) => {
         }
       >
         <List.Item.Meta
-          title={item.volumeInfo.title}
+          title={renderTitle(bookUrl, item.volumeInfo.title)}
           description={renderAuthors(item.volumeInfo.authors)}
         />
         {item.volumeInfo.description}
@@ -51,7 +54,7 @@ export const BookList: FunctionComponent<BookListProps> = (props) => {
           showSizeChanger: false,
           current: props.currentPage,
         }}
-      ></List>
+      />
     </div>
   );
 };
