@@ -16,10 +16,15 @@ export const BookDetails: FunctionComponent<BookDetailsProps> = (props) => {
           industryIdentifier.type === "ISBN_13"
       )
       .map((industryIdentifier: IndustryIdentifier) => {
+        const formattedIndustryIdentifier = industryIdentifier.type.replace(
+          "_",
+          "-"
+        );
+
         return (
           <React.Fragment key={industryIdentifier.identifier}>
             <TextContent className={styles.label} fontSize={12}>
-              {industryIdentifier.type.replace("_", "-")}
+              {formattedIndustryIdentifier}
             </TextContent>
             <TextContent fontSize={18}>
               {industryIdentifier.identifier}
