@@ -2,13 +2,42 @@
   display: flex;
   width: 50%;
   margin: 0 auto;
+  padding: 20px 0;
 }
 
 .inner {
   display: flex;
   flex-direction: column;
-  margin-left: 16px;
+  width: 100%;
+  margin-left: 24px;
 }
 
 .starRatingWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  :global(.star-ratings) {
+    margin-top: 5px;
+    margin-right: 8px;
+  }
+}
+
+.nameAndRatingWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.authors {
+  margin-bottom: 10px !important;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
 }
