@@ -4,6 +4,7 @@ import { RouteView } from "./RouteView";
 import { searchContext } from "../contexts/SearchContext/SearchContext";
 import { useSearch } from "../hooks/useSearch";
 import { Header } from "../components/global/Header/Header";
+
 function App() {
   const searchResults = useSearch();
 

@@ -25,7 +25,6 @@ export const BookFinder: FunctionComponent = () => {
         total={search.total}
         onChangePage={onChangePage}
         currentPage={currentPage}
-        isLoading={search.isLoading}
       />
     </>
   );

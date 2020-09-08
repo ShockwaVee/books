@@ -3,6 +3,7 @@ import { SearchInterface } from "./SearchInterface";
 
 export interface SearchContextInterface {
   search: {
+    query: string;
     books: VolumeModel[];
     total: number;
     startIndex: number;

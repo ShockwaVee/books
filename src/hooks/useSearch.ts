@@ -4,6 +4,7 @@ import { SearchInterface } from "../contexts/SearchContext/interfaces/SearchInte
 
 export const useSearch = (): SearchContextInterface => {
   const [search, setSearch] = React.useState<SearchInterface>({
+    query: "",
     books: [],
     total: 0,
     startIndex: 0,

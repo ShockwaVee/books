@@ -1,66 +1,64 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { FunctionComponent, useContext, useEffect } from "react";
 import { BookSearch } from "../../BookFinder/BookSearch/BookSearch";
-import axios from "axios";
 import { searchUrl } from "../../../helpers/BookHelper";
 import { notification } from "antd";
 import { searchContext } from "../../../contexts/SearchContext/SearchContext";
 import { useHistory, useLocation } from "react-router-dom";
 import styles from "./Header.module.scss";
+import { useDeepCompareMemo } from "use-deep-compare";
+import { HeaderProps } from "./interfaces/HeaderProps";
+import useAxios from "axios-hooks";
 
-export const Header: FunctionComponent = () => {
-  const [query, setQuery] = useState("");
+export const Header: FunctionComponent<HeaderProps> = () => {
   const history = useHistory();
   const location = useLocation();
   const { search, setSearch } = useContext(searchContext);
+  const memoizedSearch = useDeepCompareMemo(() => search, [search]);
+  const [{ data, loading }, getBooks] = useAxios(
+    {
+      url: `${searchUrl}${search.query}&startIndex=${search.startIndex}`,
+    },
+    {
+      manual: true,
+    }
+  );
 
   const onSearch = (queryTerm: string) => {
     const pathname = location.pathname;
     if (pathname !== "/") {
       history.push("/");
     }
-    setSearch({ ...search, startIndex: 0 });
-    setQuery(queryTerm);
+    setSearch({ ...memoizedSearch, startIndex: 0, query: queryTerm });
   };
 
-  const fetchBooks = useCallback(async () => {
-    setSearch({ ...search, isLoading: true });
-
-    try {
-      const result = await axios(
-        `${searchUrl}${query}&startIndex=${search.startIndex}`
-      );
-
-      setSearch({
-        ...search,
-        books: result.data.items,
-        total: result.data.totalItems,
-        isLoading: false,
-      });
-    } catch (e) {
-      notification.error({
-        message: "An error occurred",
-        description: "Please try searching again",
-      });
+  useEffect(() => {
+    if (search.query !== "") {
+      try {
+        getBooks();
+      } catch (e) {
+        notification.error({
+          message: "An error occurred",
+          description: "Please try searching again",
+        });
+      }
     }
-
-    window.scrollTo(0, 0);
-  }, [query, search.startIndex, setSearch]);
+  }, [getBooks, search.query, search.startIndex]);
 
   useEffect(() => {
-    if (query !== "") {
-      fetchBooks();
+    if (data == null) {
+      return;
     }
-  }, [fetchBooks, query]);
+    setSearch({
+      ...memoizedSearch,
+      books: data.items,
+      total: data.totalItems,
+    });
+    window.scrollTo(0, 0);
+  }, [memoizedSearch, data, setSearch]);
 
   return (
     <div className={styles.wrapper}>
-      <BookSearch onSearch={onSearch} isLoading={search.isLoading} />
+      <BookSearch onSearch={onSearch} isLoading={loading} />
     </div>
   );
 };
