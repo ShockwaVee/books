@@ -58,7 +58,11 @@ export const Header: FunctionComponent<HeaderProps> = () => {
 
   return (
     <div className={styles.wrapper}>
-      <BookSearch onSearch={onSearch} isLoading={loading} />
+      <BookSearch
+        onSearch={onSearch}
+        isLoading={loading}
+        value={search.query}
+      />
     </div>
   );
 };

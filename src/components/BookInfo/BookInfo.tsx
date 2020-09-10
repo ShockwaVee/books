@@ -1,13 +1,14 @@
 import React, {
   FunctionComponent,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import { fetchUrl, renderAuthors } from "../../helpers/BookHelper";
+import { fetchUrl } from "../../helpers/BookHelper";
 import { Badge, notification, Skeleton, Typography } from "antd";
 // @ts-ignore
 import StarRatings from "react-star-ratings";
@@ -15,15 +16,46 @@ import { VolumeModel } from "../BookFinder/BookList/interfaces/VolumeModel";
 import styles from "./BookInfo.module.scss";
 import { TextContent } from "../global/TextContent/TextContent";
 import { BookDetails } from "./BookDetails/BookDetails";
+import { searchContext } from "../../contexts/SearchContext/SearchContext";
 
 export const BookInfo: FunctionComponent = () => {
   const { Title } = Typography;
+  const history = useHistory();
+  const location = useLocation();
   const params = useParams<{ bookId: string }>();
   const [isLoading, setIsLoading] = useState(false);
   const [book, setBook] = useState<VolumeModel | null>(null);
   const bookId = useMemo(() => {
     return params.bookId;
   }, [params]);
+  const { search, setSearch } = useContext(searchContext);
+
+  const searchForAuthorsBooks = (author: string) => {
+    const pathname = location.pathname;
+    if (pathname !== "/") {
+      history.push("/");
+    }
+    setSearch({ ...search, query: `inauthor:${author}`, startIndex: 0 });
+  };
+
+  const renderAuthors = (authors: string[] | undefined) => {
+    if (authors == null) {
+      return "-";
+    }
+
+    return authors.map((author: string, i: number) => {
+      return [
+        i > 0 && ", ",
+        <button
+          className={styles.authorButton}
+          key={author}
+          onClick={() => searchForAuthorsBooks(author)}
+        >
+          {author}
+        </button>,
+      ];
+    });
+  };
 
   const fetchBook = useCallback(async () => {
     setIsLoading(true);
@@ -59,22 +91,16 @@ export const BookInfo: FunctionComponent = () => {
           <img
             height={360}
             alt="logo"
-            src={
-              book?.volumeInfo.imageLinks?.medium ||
-              book?.volumeInfo.imageLinks?.thumbnail
-            }
+            src={book?.volumeInfo.imageLinks?.thumbnail}
           />
         </Badge.Ribbon>
       );
     } else {
       return (
         <img
-          height={360}
+          height={240}
           alt="logo"
-          src={
-            book?.volumeInfo.imageLinks?.medium ||
-            book?.volumeInfo.imageLinks?.thumbnail
-          }
+          src={book?.volumeInfo.imageLinks?.thumbnail}
         />
       );
     }
@@ -88,7 +114,7 @@ export const BookInfo: FunctionComponent = () => {
       </div>
       <div className={styles.inner}>
         <div className={styles.nameAndRatingWrapper}>
-          <Title>{book?.volumeInfo.title}</Title>
+          <Title className={styles.title}>{book?.volumeInfo.title}</Title>
           <div className={styles.starRatingWrapper}>
             <StarRatings
               rating={book?.volumeInfo.averageRating}
