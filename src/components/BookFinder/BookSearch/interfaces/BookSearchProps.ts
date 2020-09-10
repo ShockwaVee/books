@@ -1,4 +1,4 @@
 export interface BookSearchProps {
-  onSearch: any;
+  onSearch: (query: string) => void;
   isLoading: boolean;
 }

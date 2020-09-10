@@ -9,7 +9,11 @@ import { renderAuthors } from "../../../helpers/BookHelper";
 
 export const BookList: FunctionComponent<BookListProps> = (props) => {
   const renderTitle = (bookUrl: string, title: string) => {
-    return <Link to={bookUrl}>{title}</Link>;
+    return (
+      <Link className={styles.link} to={bookUrl}>
+        {title}
+      </Link>
+    );
   };
 
   const renderItem = (item: VolumeModel) => {
