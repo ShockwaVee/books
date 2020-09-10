@@ -35,6 +35,9 @@ export const BookDetails: FunctionComponent<BookDetailsProps> = (props) => {
   };
 
   const renderOtherCategories = (categories: string[]) => {
+    if (categories == null || categories.length <= 1) {
+      return null;
+    }
     categories.shift();
     return categories.map((category: string) => {
       return (

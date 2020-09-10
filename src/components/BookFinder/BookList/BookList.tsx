@@ -44,7 +44,6 @@ export const BookList: FunctionComponent<BookListProps> = (props) => {
         size="large"
         dataSource={props.books}
         renderItem={renderItem}
-        loading={props.isLoading}
         pagination={{
           onChange: (page: number) => {
             props.onChangePage(page);

@@ -13,6 +13,7 @@
     "@types/react-router-dom": "^5.1.5",
     "antd": "^4.5.1",
     "axios": "^0.19.2",
+    "axios-hooks": "^2.1.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "moment": "^2.27.0",
@@ -23,7 +24,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-star-ratings": "^2.3.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "use-deep-compare": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

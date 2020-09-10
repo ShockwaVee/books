@@ -3,5 +3,4 @@ export interface BookListProps {
   total: number;
   onChangePage: (pageSize: number) => void;
   currentPage: number;
-  isLoading: boolean;
 }

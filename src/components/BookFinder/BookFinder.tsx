@@ -1,67 +1,30 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import { BookSearch } from "./BookSearch/BookSearch";
+import React, { FunctionComponent, useContext } from "react";
 import { BookList } from "./BookList/BookList";
-import axios from "axios";
-import { notification } from "antd";
-import { searchUrl } from "../../helpers/BookHelper";
+import { searchContext } from "../../contexts/SearchContext/SearchContext";
 
 export const BookFinder: FunctionComponent = () => {
-  const [query, setQuery] = useState("");
-  const [books, setBooks] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [startIndex, setStartIndex] = useState(0);
-
-  const fetchBooks = useCallback(async () => {
-    setIsLoading(true);
-
-    try {
-      const result = await axios(
-        `${searchUrl}${query}&startIndex=${startIndex}`
-      );
-
-      setIsLoading(false);
-      setTotal(result.data.totalItems);
-      setBooks(result.data.items);
-    } catch (e) {
-      notification.error({
-        message: "An error occurred",
-        description: "Please try searching again",
-      });
-    }
-
-    window.scrollTo(0, 0);
-  }, [query, startIndex]);
-
-  useEffect(() => {
-    if (query !== "") {
-      fetchBooks();
-    }
-  }, [fetchBooks, query]);
-
-  const onSearch = (a: string) => {
-    setStartIndex(0);
-    setQuery(a);
-  };
+  const { search, setSearch } = useContext(searchContext);
 
   const onChangePage = (pageNumber: number) => {
-    setStartIndex(pageNumber * 10);
+    // offset added because pagination starts from 1 and not 0
+    const offsetPageNumber = pageNumber - 1;
+
+    setSearch({
+      ...search,
+      startIndex: offsetPageNumber * 10,
+    });
   };
+
+  // adds 1 to calculate the offset from pageNumber
+  const currentPage = search.startIndex / 10 + 1;
 
   return (
     <>
-      <BookSearch onSearch={onSearch} isLoading={isLoading} />
       <BookList
-        books={books}
-        total={total}
+        books={search.books}
+        total={search.total}
         onChangePage={onChangePage}
-        currentPage={Math.max(1, startIndex / 10)}
-        isLoading={isLoading}
+        currentPage={currentPage}
       />
     </>
   );

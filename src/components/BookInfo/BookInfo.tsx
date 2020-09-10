@@ -50,21 +50,40 @@ export const BookInfo: FunctionComponent = () => {
     return <Skeleton />;
   }
 
+  const renderImage = (book: VolumeModel) => {
+    if (book.volumeInfo.categories) {
+      return (
+        <Badge.Ribbon
+          text={book.volumeInfo.categories ? book.volumeInfo.categories[0] : ""}
+        >
+          <img
+            height={360}
+            alt="logo"
+            src={
+              book?.volumeInfo.imageLinks?.medium ||
+              book?.volumeInfo.imageLinks?.thumbnail
+            }
+          />
+        </Badge.Ribbon>
+      );
+    } else {
+      return (
+        <img
+          height={360}
+          alt="logo"
+          src={
+            book?.volumeInfo.imageLinks?.medium ||
+            book?.volumeInfo.imageLinks?.thumbnail
+          }
+        />
+      );
+    }
+  };
+
   return (
     <div className={styles.wrap}>
       <div className={styles.technicalDetails}>
-        <div className={styles.imageWrapper}>
-          <Badge.Ribbon text={book.volumeInfo.categories[0]}>
-            <img
-              height={360}
-              alt="logo"
-              src={
-                book?.volumeInfo.imageLinks?.medium ||
-                book?.volumeInfo.imageLinks?.thumbnail
-              }
-            />
-          </Badge.Ribbon>
-        </div>
+        <div className={styles.imageWrapper}>{renderImage(book)}</div>
         <BookDetails book={book} />
       </div>
       <div className={styles.inner}>

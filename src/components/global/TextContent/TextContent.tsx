@@ -9,7 +9,7 @@ const AntdText = Typography.Text;
 
 export const TextContent: FunctionComponent<
   TextContentProps & TextProps
-> = React.forwardRef((props) => {
+> = React.forwardRef((props, ref) => {
   const fontSizeValue = props.fontSize || FontSize.Regular14;
   const { fontSize, children, ...textProps } = props;
   return (
